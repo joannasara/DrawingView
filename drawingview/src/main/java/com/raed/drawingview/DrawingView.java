@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.widget.Toast;
 
 import com.raed.drawingview.brushes.BrushSettings;
 import com.raed.drawingview.brushes.Brushes;
@@ -589,5 +590,9 @@ public class DrawingView extends View{
             DrawingAction action = new DrawingAction(bitmap, rect);
             mActionStack.addAction(action);
         }
+    }
+
+    public void checkConnection(Context context) {
+        Toast.makeText(context, "Library connected", Toast.LENGTH_SHORT).show();
     }
 }
