@@ -192,7 +192,7 @@ public class DrawingView extends View{
         Map<String, Object> map = new HashMap<>();
         map.put("scaledX", scaledX);
         map.put("scaledY", scaledY);
-        map.put("event", event);
+        map.put("event", event.toString());
         mFirebaseDatabase.getReference()
                 .child("Drawing")
                 .child(userUID)

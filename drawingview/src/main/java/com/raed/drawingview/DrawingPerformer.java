@@ -109,14 +109,6 @@ class DrawingPerformer {
             mDrawing = false;
             notifyListener();
         }
-
-//        if (mFirebaseDatabase !=  null) {
-//            mFirebaseDatabase.getReference()
-//                    .child("Drawing")
-//                    .child(userUID)
-//                    .child(friendsUID)
-//                    .setValue()
-//        }
     }
 
     void setPaintPerformListener(DrawingPerformerListener listener) {
