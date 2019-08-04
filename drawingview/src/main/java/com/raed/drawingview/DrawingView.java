@@ -189,16 +189,16 @@ public class DrawingView extends View{
         float scaledY = (event.getY() - mDrawingTranslationY) / mScaleFactor;
         event.setLocation(scaledX, scaledY);
         mDrawingPerformer.onTouch(event);
-        Map<String, Object> map = new HashMap<>();
-        map.put("scaledX", scaledX);
-        map.put("scaledY", scaledY);
-        map.put("event", event.toString());
-        mFirebaseDatabase.getReference()
-                .child("Drawing")
-                .child(userUID)
-                .child(friendsUID)
-                .child(Calendar.getInstance().getTime().toString())
-                .setValue(map);
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("scaledX", scaledX);
+//        map.put("scaledY", scaledY);
+//        map.put("event", event.toString());
+//        mFirebaseDatabase.getReference()
+//                .child("Drawing")
+//                .child(userUID)
+//                .child(friendsUID)
+//                .child(Calendar.getInstance().getTime().toString())
+//                .setValue(map);
         invalidate();
         return true;
     }
@@ -266,7 +266,7 @@ public class DrawingView extends View{
 
     public void setUndoAndRedoEnable(boolean enabled){
         if (enabled)
-            mActionStack = new ActionStack();
+            mActionStack = new ActionStack(mFirebaseDatabase, userUID, friendsUID);
         else
             mActionStack = null;
     }
@@ -290,7 +290,7 @@ public class DrawingView extends View{
             initializeDrawingBitmap(mBGBitmap.getWidth(), mBGBitmap.getHeight());
         }
         if (mActionStack != null) //if undo and redo is enabled, remove the old actions by creating a new instance.
-            mActionStack = new ActionStack();
+            mActionStack = new ActionStack(mFirebaseDatabase, userUID, friendsUID);
         invalidate();
     }
 

@@ -1,7 +1,11 @@
 package com.raed.drawingview;
 
 import android.util.Log;
+
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /*
@@ -9,12 +13,22 @@ This is used for undo and redo operations.
  */
 class ActionStack {
 
+    private FirebaseDatabase mFirebaseDatabase;
+    private String userUID;
+    private String friendsUID;
+
     private static final String TAG = "ActionStack";
     private static final long mMaxSize = Runtime.getRuntime().maxMemory() / 4;
     private long mCurrentSize;
 
     private List<DrawingAction> mUndoStack = new ArrayList<>();
     private List<DrawingAction> mRedoStack = new ArrayList<>();
+
+    public ActionStack(FirebaseDatabase db, String userID, String friendID) {
+        mFirebaseDatabase = db;
+        userUID = userID;
+        friendsUID = friendID;
+    }
 
 
     void addAction(DrawingAction action) {
@@ -25,6 +39,11 @@ class ActionStack {
             mRedoStack.clear();
         }
         addActionToStack(mUndoStack, action);
+        mFirebaseDatabase.getReference()
+                .child(userUID)
+                .child(friendsUID)
+                .child(Calendar.getInstance().getTime().toString())
+                .setValue(action);
     }
 
     void addActionToRedoStack(DrawingAction action){
