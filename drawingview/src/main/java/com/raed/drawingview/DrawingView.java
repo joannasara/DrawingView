@@ -113,6 +113,12 @@ public class DrawingView extends View{
         friendsUID = friendID;
     }
 
+    public void setFirebase(FirebaseDatabase db, String userID, String friendID) {
+        mFirebaseDatabase = db;
+        userUID = userID;
+        friendsUID = friendID;
+    }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
