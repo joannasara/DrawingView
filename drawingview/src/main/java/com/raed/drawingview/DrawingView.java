@@ -22,6 +22,8 @@ import com.raed.drawingview.brushes.BrushSettings;
 import com.raed.drawingview.brushes.Brushes;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class DrawingView extends View{
@@ -187,12 +189,15 @@ public class DrawingView extends View{
         float scaledY = (event.getY() - mDrawingTranslationY) / mScaleFactor;
         event.setLocation(scaledX, scaledY);
         mDrawingPerformer.onTouch(event);
+        Map<String, Object> map = new HashMap<>();
+        map.put("scaledX", scaledX);
+        map.put("scaledY", scaledY);
         mFirebaseDatabase.getReference()
                 .child("Drawing")
                 .child(userUID)
                 .child(friendsUID)
                 .child(Calendar.getInstance().getTime().toString())
-                .setValue(event);
+                .setValue(map);
         invalidate();
         return true;
     }
