@@ -17,14 +17,21 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.raed.drawingview.brushes.BrushSettings;
 import com.raed.drawingview.brushes.Brushes;
+
+import java.util.Calendar;
 
 
 public class DrawingView extends View{
 
     private static final float MAX_SCALE = 5f;
     private static final float MIN_SCALE = 0.1f;
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private String userUID;
+    private String friendsUID;
 
     private Canvas mCanvas;
     private Bitmap mDrawingBitmap;
@@ -96,6 +103,16 @@ public class DrawingView extends View{
             initializeAttributes(attrs);
     }
 
+    public DrawingView(Context context, AttributeSet attrs, int defStyleAttr, FirebaseDatabase db, String userID, String friendID) {
+        super(context, attrs, defStyleAttr);
+        mBrushes = new Brushes(context.getResources());
+        if (attrs != null)
+            initializeAttributes(attrs);
+        mFirebaseDatabase = db;
+        userUID = userID;
+        friendsUID = friendID;
+    }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -164,6 +181,12 @@ public class DrawingView extends View{
         float scaledY = (event.getY() - mDrawingTranslationY) / mScaleFactor;
         event.setLocation(scaledX, scaledY);
         mDrawingPerformer.onTouch(event);
+        mFirebaseDatabase.getReference()
+                .child("Drawing")
+                .child(userUID)
+                .child(friendsUID)
+                .child(Calendar.getInstance().getTime().toString())
+                .setValue(event);
         invalidate();
         return true;
     }
@@ -477,7 +500,7 @@ public class DrawingView extends View{
         mDrawingBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mDrawingBitmap);
         if (mDrawingPerformer == null){
-            mDrawingPerformer = new DrawingPerformer(mBrushes);
+            mDrawingPerformer = new DrawingPerformer(mBrushes, mFirebaseDatabase, userUID, friendsUID);
             mDrawingPerformer.setPaintPerformListener(new MyDrawingPerformerListener());
         }
         mDrawingPerformer.setWidthAndHeight(w, h);

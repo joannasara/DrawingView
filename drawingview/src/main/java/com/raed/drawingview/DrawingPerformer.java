@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.raed.drawingview.brushes.Brush;
 import com.raed.drawingview.brushes.BrushRenderer;
 import com.raed.drawingview.brushes.Brushes;
@@ -18,6 +19,10 @@ import com.raed.drawingview.brushes.stampbrushes.StampBrush;
 import com.raed.drawingview.brushes.stampbrushes.StampBrushRenderer;
 
 class DrawingPerformer {
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private String userUID;
+    private String friendsUID;
 
     private static final String TAG = "DrawingPerformer";
     private BrushRenderer mCurrentBrushRenderer;
@@ -43,7 +48,11 @@ class DrawingPerformer {
 
     private Brushes mBrushes;
 
-    public DrawingPerformer(Brushes brushes){
+    public DrawingPerformer(Brushes brushes, FirebaseDatabase db, String userID, String friendID){
+
+        mFirebaseDatabase = db;
+        userUID = userID;
+        friendsUID = friendID;
 
         mStampBrushRenderer = new StampBrushRenderer();
         mPathBrushRenderer = new PathBrushRenderer();
@@ -100,6 +109,14 @@ class DrawingPerformer {
             mDrawing = false;
             notifyListener();
         }
+
+//        if (mFirebaseDatabase !=  null) {
+//            mFirebaseDatabase.getReference()
+//                    .child("Drawing")
+//                    .child(userUID)
+//                    .child(friendsUID)
+//                    .setValue()
+//        }
     }
 
     void setPaintPerformListener(DrawingPerformerListener listener) {

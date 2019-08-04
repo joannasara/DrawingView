@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/DrawingView.iml" filepath="$PROJECT_DIR$/.idea/DrawingView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/DrawingView.iml" filepath="$PROJECT_DIR$/.idea/DrawingView.iml" />
       <module fileurl="file://$PROJECT_DIR$/DrawingView.iml" filepath="$PROJECT_DIR$/DrawingView.iml" />
       <module fileurl="file://$PROJECT_DIR$/drawingview/drawingview.iml" filepath="$PROJECT_DIR$/drawingview/drawingview.iml" />
       <module fileurl="file://$PROJECT_DIR$/drawingview/drawingview.iml" filepath="$PROJECT_DIR$/drawingview/drawingview.iml" />
